@@ -8,6 +8,7 @@
     "start": "nodemon transpiled/index.js"
   },
   "dependencies": {
+    "axios": "^0.19.0",
     "dotenv": "^8.2.0",
     "esm": "^3.2.25",
     "express": "^4.17.1"
