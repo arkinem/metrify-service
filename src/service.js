@@ -1,4 +1,5 @@
 import express from "express";
+import router from "./routes/routes";
 import dotenv from "dotenv";
 
 if (process.env.NODE_ENV !== "production") {
@@ -7,12 +8,13 @@ if (process.env.NODE_ENV !== "production") {
 
 const app = express();
 
-app.get("/", (req, res) => {
-  res.send("Hello from metrify service!");
-});
+app.use(express.json({ extended: true }));
 
-// Listen to the App Engine-specified port, or 8080 otherwise
-const PORT = process.env.PORT || 8080;
+app.use(router);
+
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Service listening on port ${PORT}...`);
 });
+
+export default app;

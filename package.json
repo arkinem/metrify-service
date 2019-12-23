@@ -5,11 +5,16 @@
   "author": "arkinem",
   "license": "MIT",
   "scripts": {
-    "start": "node -r esm service.js"
+    "start": "nodemon transpiled/index.js"
   },
   "dependencies": {
     "dotenv": "^8.2.0",
     "esm": "^3.2.25",
     "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "nodemon": "^2.0.2"
   }
 }
