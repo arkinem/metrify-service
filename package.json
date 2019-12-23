@@ -2,11 +2,11 @@
   "name": "metrify-service",
   "version": "1.0.0",
   "description": "",
+  "author": "arkinem",
+  "license": "MIT",
   "scripts": {
     "start": "node -r esm service.js"
   },
-  "author": "",
-  "license": "ISC",
   "dependencies": {
     "dotenv": "^8.2.0",
     "esm": "^3.2.25",
