@@ -12,7 +12,7 @@ steps:
 
 - task: CopyFiles@2
   inputs:
-    SourceFolder: 'metrify-service'
+    SourceFolder: '$(Build.BinariesDirectory)/metrify-service'
     Contents: |
       **\*.js
       **\*.json
