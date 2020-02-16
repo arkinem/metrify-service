@@ -6,13 +6,12 @@ pool:
 
 
 steps:
-- task: Npm@1
-  inputs:
-    command: 'install'
+- script: npm install
+  displayName: "NPM install"
 
 - task: CopyFiles@2
   inputs:
-    SourceFolder: 'metrify-service'
+    SourceFolder: '$(System.DefaultWorkingDirectory)'
     Contents: |
       **\*.js
       **\*.json
@@ -20,7 +19,7 @@ steps:
 
 - task: ArchiveFiles@2
   inputs:
-    rootFolderOrFile: 'metrify-service'
+    rootFolderOrFile: '$(System.DefaultWorkingDirectory)'
     includeRootFolder: true
     archiveType: 'zip'
     archiveFile: '$(Build.ArtifactStagingDirectory)/metrify-service-$(Build.BuildId).zip'
