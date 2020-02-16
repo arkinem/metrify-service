@@ -9,10 +9,10 @@ steps:
     displayName: "NPM install"
 
   - script: npm run build
-
-  - script: jest --ci --testResultsProcessor="jest-junit"
+    displayName: "NPM build"
 
   - script: npm test
+    displayName: "NPM test"
 
   - task: PublishTestResults@2
     condition: succeededOrFailed()
