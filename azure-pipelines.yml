@@ -30,9 +30,10 @@ steps:
 
   - task: ArchiveFiles@2
     inputs:
-      rootFolderOrFile: "$(System.DefaultWorkingDirectory)"
-      archiveType: "zip"
-      archiveFile: "$(Build.ArtifactStagingDirectory)/metrify-service-$(Build.BuildId).zip"
+      rootFolderOrFile: '$(System.DefaultWorkingDirectory)'
+      includeRootFolder: false
+      archiveType: 'zip'
+      archiveFile: '$(Build.ArtifactStagingDirectory)/metrify-service-$(Build.BuildId).zip'
       replaceExistingArchive: true
 
   - task: PublishBuildArtifacts@1
