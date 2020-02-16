@@ -20,13 +20,12 @@
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "express": "~4.16.1",
+    "jest": "^25.1.0",
+    "jest-junit": "^10.0.0",
     "morgan": "~1.9.1",
     "nodemon": "^2.0.2",
     "npm-run-all": "^4.1.5",
     "rimraf": "^3.0.2"
-  },
-  "devDependencies": {
-    "jest": "^25.1.0"
   },
   "nodemonConfig": {
     "exec": "npm run dev",
@@ -46,6 +45,10 @@
     ]
   },
   "jest": {
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "reporters": [
+      "default",
+      "jest-junit"
+    ]
   }
 }

@@ -1,0 +1,42 @@
+trigger:
+  - master
+
+pool:
+  vmImage: "ubuntu-latest"
+
+steps:
+  - script: npm install
+    displayName: "NPM install"
+
+  - script: npm run build
+
+  - script: jest --ci --testResultsProcessor="jest-junit"
+
+  - script: npm test
+
+  - task: PublishTestResults@2
+    condition: succeededOrFailed()
+    inputs:
+      testRunner: JUnit
+      testResultsFiles: "**/junit.xml"
+
+  - task: CopyFiles@2
+    inputs:
+      SourceFolder: "$(System.DefaultWorkingDirectory)"
+      Contents: |
+        **\*.js
+        **\*.json
+      TargetFolder: "$(Build.ArtifactStagingDirectory)"
+
+  - task: ArchiveFiles@2
+    inputs:
+      rootFolderOrFile: "$(System.DefaultWorkingDirectory)"
+      archiveType: "zip"
+      archiveFile: "$(Build.ArtifactStagingDirectory)/metrify-service-$(Build.BuildId).zip"
+      replaceExistingArchive: true
+
+  - task: PublishBuildArtifacts@1
+    inputs:
+      PathtoPublish: "$(Build.ArtifactStagingDirectory)"
+      ArtifactName: "drop"
+      publishLocation: "Container"
