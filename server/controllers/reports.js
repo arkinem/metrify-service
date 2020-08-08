@@ -7,8 +7,8 @@ export const generateReport = async (req, res) => {
 	const airQuality = await getAirQualityInformation(lat, lng);
 
 	if (airQuality.error) {
-		return res.status(400).json({ error: result.message });
+		return res.status(400).json({ error: airQuality.message });
 	}
 
-	return res.status(201).json(result);
+	return res.status(201).json(airQuality);
 };
