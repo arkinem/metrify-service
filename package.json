@@ -5,7 +5,7 @@
 	"author": "arkinem",
 	"license": "MIT",
 	"scripts": {
-		"start": "node transpiled/index.js",
+		"start": "node --require babel-register transpiled/index.js",
 		"start:dev": "nodemon transpiled/index.js"
 	},
 	"dependencies": {
