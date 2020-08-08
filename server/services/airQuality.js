@@ -1,5 +1,6 @@
 import axios from "axios";
-import { airQualityServiceBaseUrl as baseUrl, airQualityServiceKey as key } from "../config";
+import config from "../config";
+const { airQualityServiceBaseUrl: baseUrl, airQualityServiceKey: key } = config;
 
 export const getAirQualityInformation = async (lat, lng) => {
 	const url = `${baseUrl}/v2/nearest_city`;
