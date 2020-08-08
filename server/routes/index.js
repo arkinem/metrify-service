@@ -1,5 +1,4 @@
 import express from "express";
-// import * as asyncHandler from "express-async-handler";
 import * as controller from "../controllers/controller";
 
 var router = express.Router();

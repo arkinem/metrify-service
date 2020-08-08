@@ -13,7 +13,6 @@ var _express = _interopRequireDefault(require("express"));
 
 var controller = _interopRequireWildcard(require("../controllers/controller"));
 
-// import * as asyncHandler from "express-async-handler";
 var router = _express["default"].Router();
 /* GET home page. */
 
