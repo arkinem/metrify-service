@@ -1,13 +1,14 @@
 import axios from "axios";
-import { services } from "../config";
+import { airQualityServiceBaseUrl as baseUrl, airQualityServiceKey as key } from "../config";
 
 export const getAirQualityInformation = async (lat, lng) => {
-	const requestConfig = services.airVisual.getNearestCityData(lat, lng);
+	const url = `${baseUrl}/v2/nearest_city`;
 
 	try {
-		//const { data } = await axios(requestConfig);
-		//return data;
-		return mockResponse;
+		const { data } = await axios.get(url, { params: { key, lat, lng } });
+
+		return data;
+		//return mockResponse;
 	} catch (e) {
 		return {
 			error: true,
