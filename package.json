@@ -1,23 +1,59 @@
 {
 	"name": "metrify-service",
-	"version": "1.0.0",
-	"description": "",
+	"version": "0.0.0",
 	"author": "arkinem",
 	"license": "MIT",
+	"private": true,
 	"scripts": {
-		"start": "node transpiled/index.js",
-		"start:dev": "nodemon transpiled/index.js"
+		"start": "npm run prod",
+		"build": "npm-run-all clean transpile",
+		"server": "node ./dist-server/bin/www",
+		"dev": "NODE_ENV=development npm-run-all build server",
+		"prod": "NODE_ENV=production npm-run-all build server",
+		"transpile": "babel ./server --out-dir dist-server --plugins @babel/plugin-transform-async-to-generator",
+		"clean": "rimraf dist-server",
+		"watch:dev": "nodemon"
 	},
 	"dependencies": {
-		"axios": "^0.19.0",
-		"babel-register": "6.26.0",
-		"dotenv": "^8.2.0",
-		"esm": "^3.2.25",
-		"express": "^4.17.1"
+		"@babel/cli": "^7.10.5",
+		"@babel/core": "^7.11.1",
+		"@babel/plugin-transform-async-to-generator": "^7.10.4",
+		"@babel/plugin-transform-runtime": "^7.11.0",
+		"@babel/preset-env": "^7.11.0",
+		"@babel/runtime": "^7.11.2",
+		"axios": "^0.19.2",
+		"cookie-parser": "~1.4.4",
+		"debug": "~2.6.9",
+		"express": "~4.16.1",
+		"express-async-handler": "^1.1.4",
+		"morgan": "~1.9.1",
+		"nodemon": "^2.0.4",
+		"npm-run-all": "^4.1.5",
+		"rimraf": "^3.0.2"
 	},
-	"devDependencies": {
-		"babel-cli": "^6.26.0",
-		"babel-preset-env": "^1.7.0",
-		"nodemon": "^2.0.2"
+	"babel": {
+		"presets": [
+			"@babel/preset-env"
+		],
+		"plugins": [
+			[
+				"@babel/plugin-transform-runtime",
+				{
+					"regenerator": true
+				}
+			]
+		]
+	},
+	"nodemonConfig": {
+		"exec": "npm run dev",
+		"watch": [
+			"server/*",
+			"public/*"
+		],
+		"ignore": [
+			"**/__tests__/**",
+			"*.test.js",
+			"*.spec.js"
+		]
 	}
 }
