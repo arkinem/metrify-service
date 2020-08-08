@@ -1,21 +1,22 @@
 {
-  "name": "metrify-service",
-  "version": "1.0.0",
-  "description": "",
-  "author": "arkinem",
-  "license": "MIT",
-  "scripts": {
-    "start": "nodemon transpiled/index.js"
-  },
-  "dependencies": {
-    "axios": "^0.19.0",
-    "dotenv": "^8.2.0",
-    "esm": "^3.2.25",
-    "express": "^4.17.1"
-  },
-  "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-preset-env": "^1.7.0",
-    "nodemon": "^2.0.2"
-  }
+	"name": "metrify-service",
+	"version": "1.0.0",
+	"description": "",
+	"author": "arkinem",
+	"license": "MIT",
+	"scripts": {
+		"start": "node transpiled/index.js",
+		"start:dev": "nodemon transpiled/index.js"
+	},
+	"dependencies": {
+		"axios": "^0.19.0",
+		"dotenv": "^8.2.0",
+		"esm": "^3.2.25",
+		"express": "^4.17.1"
+	},
+	"devDependencies": {
+		"babel-cli": "^6.26.0",
+		"babel-preset-env": "^1.7.0",
+		"nodemon": "^2.0.2"
+	}
 }
