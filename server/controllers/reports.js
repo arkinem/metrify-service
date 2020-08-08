@@ -1,16 +1,14 @@
-import { getNearestAirPollution } from "../services/reports";
+import { getAirQualityInformation } from "../services/airQuality";
 
 export const generateReport = async (req, res) => {
-	const { lat, lng } = req.body;
-	let response = { message: "I'm working on getting reports endpoint ready!" };
-	console.log("Request for", lat, lng, "recieved.");
-	// FETCH AIR DATA
+	const { lat, lng } = req.query;
+	let response = {};
 
-	// const result = await getNearestAirPollution(lat, lng);
+	const airQuality = await getAirQualityInformation(lat, lng);
 
-	// if (result.error) {
-	// 	return res.status(400).json({ error: result.message });
-	// }
+	if (airQuality.error) {
+		return res.status(400).json({ error: result.message });
+	}
 
-	return res.status(201).json(response);
+	return res.status(201).json(result);
 };
