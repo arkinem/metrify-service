@@ -1,7 +1,9 @@
 import app from "../app";
 import debugLib from "debug";
 import http from "http";
+import dotenv from "dotenv";
 const debug = debugLib("metrify-service:server");
+dotenv.config();
 
 /**
  * Get port from environment and store in Express.
