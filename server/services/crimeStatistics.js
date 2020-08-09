@@ -3,7 +3,7 @@ import moment from "moment";
 import config from "../config";
 const { crimeStatisticsServiceBaseUrl: baseUrl } = config;
 
-const debug = true;
+const debug = false;
 
 export const getCrimeStatistics = async (lat, lng) => {
 	let result = {};

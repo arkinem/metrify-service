@@ -2,7 +2,7 @@ import axios from "axios";
 import config from "../config";
 const { airQualityServiceBaseUrl: baseUrl, airQualityServiceKey: key } = config;
 
-const debug = true;
+const debug = false;
 
 export const getAirQualityInformation = async (lat, lng) => {
 	const url = `${baseUrl}/v2/nearest_city`;

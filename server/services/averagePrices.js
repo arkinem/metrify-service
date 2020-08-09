@@ -3,7 +3,7 @@ import parser from "xml2json";
 import config from "../config";
 const { averagePricesServiceBaseUrl: baseUrl, averagePricesServiceKey: api_key } = config;
 
-const debug = true;
+const debug = false;
 
 const fetchAveragePrices = async (latitude, longitude) => {
 	const url = `${baseUrl}/v1/average_sold_prices`;
