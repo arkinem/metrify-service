@@ -18,7 +18,7 @@ export const generateReport = async (req, res) => {
 	if (crimeData.error) {
 		return res.status(400).json({ error: airQuality.message });
 	} else {
-		response = { ...response, crimeData: airQuality };
+		response = { ...response, crimeData: crimeData };
 	}
 
 	return res.status(201).json(response);
