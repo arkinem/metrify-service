@@ -3,7 +3,9 @@ import parser from "xml2json";
 import config from "../config";
 const { averagePricesServiceBaseUrl: baseUrl, averagePricesServiceKey: api_key } = config;
 
-export const fetchAveragePrices = async (latitude, longitude) => {
+const debug = true;
+
+const fetchAveragePrices = async (latitude, longitude) => {
 	const url = `${baseUrl}/v1/average_sold_prices`;
 	const page_size = 20;
 
@@ -51,7 +53,7 @@ export const fetchAveragePrices = async (latitude, longitude) => {
 
 export const getAveragePrices = async (lat, lng) => {
 	const response = await fetchAveragePrices(lat, lng);
-
+	if (debug) return mockResponse;
 	if (response?.error) return response;
 
 	let counters = {
@@ -65,7 +67,6 @@ export const getAveragePrices = async (lat, lng) => {
 	const incrementAverage = (currentAverage, counterLabel, newValue, float = false) => {
 		const parsedValue = float ? parseFloat(newValue) : parseInt(newValue);
 		const numberOfElements = counters[counterLabel];
-		console.log(numberOfElements);
 
 		if (numberOfElements === 0) {
 			counters[counterLabel] = numberOfElements + 1;
@@ -112,4 +113,16 @@ export const getAveragePrices = async (lat, lng) => {
 	}));
 
 	return average;
+};
+
+const mockResponse = {
+	averagePrice1Year: "337325.57",
+	averagePrice3Year: "358026.44",
+	averagePrice5Year: "350841.13",
+	averagePrice7Year: "323298.95",
+	numberOfSales1Year: 102,
+	numberOfSales3Year: 495,
+	numberOfSales5Year: 937,
+	numberOfSales7Year: 1327,
+	turnover: "15.33",
 };
