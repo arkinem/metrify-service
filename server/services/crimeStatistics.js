@@ -1,7 +1,6 @@
 import axios from "axios";
 import moment from "moment";
-import config from "../config";
-const { crimeStatisticsServiceBaseUrl: baseUrl } = config;
+import { useConfig } from "../hooks/useConfig";
 
 const debug = true;
 
@@ -29,6 +28,7 @@ export const getCrimeStatistics = async (lat, lng) => {
 };
 
 const fetchCrimeStatistics = async (lat, lng, date) => {
+	const { crimeStatisticsServiceBaseUrl: baseUrl } = useConfig();
 	const url = `${baseUrl}/crimes-at-location`;
 
 	try {
