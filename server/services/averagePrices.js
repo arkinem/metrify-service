@@ -1,11 +1,11 @@
 import axios from "axios";
 import parser from "xml2json";
-import config from "../config";
-const { averagePricesServiceBaseUrl: baseUrl, averagePricesServiceKey: api_key } = config;
+import { useConfig } from "../hooks/useConfig";
 
-const debug = true;
+const debug = false;
 
 const fetchAveragePrices = async (latitude, longitude) => {
+	const { averagePricesServiceBaseUrl: baseUrl, averagePricesServiceKey: api_key } = useConfig();
 	const url = `${baseUrl}/v1/average_sold_prices`;
 	const page_size = 20;
 
@@ -44,6 +44,7 @@ const fetchAveragePrices = async (latitude, longitude) => {
 
 		return result;
 	} catch (e) {
+		console.log(e.response);
 		return {
 			error: true,
 			message: "Something went wrong with Zoopla api call",
