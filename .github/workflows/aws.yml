@@ -77,5 +77,5 @@ jobs:
       with:
         task-definition: ${{ steps.task-def.outputs.task-definition }}
         service: nginx-service
-        cluster: default
+        cluster: metrify-service-cluster
         wait-for-service-stability: true
