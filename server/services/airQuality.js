@@ -1,13 +1,13 @@
 import axios from "axios";
 import { useConfig } from "../hooks/useConfig";
 
-const debug = true;
-
 export const getAirQualityInformation = async (lat, lng) => {
 	const { airQualityServiceBaseUrl: baseUrl, airQualityServiceKey: key } = useConfig();
 	const url = `${baseUrl}/v2/nearest_city`;
 
-	if (debug) return mockResponse;
+	const { debugMode } = useConfig();
+
+	if (debugMode) return mockResponse;
 
 	try {
 		const { data } = await axios.get(url, { params: { key, lat, lon: lng } });
