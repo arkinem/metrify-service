@@ -2,26 +2,23 @@ import axios from "axios";
 import moment from "moment";
 import { useConfig } from "../hooks/useConfig";
 
-const debug = true;
-
 export const getCrimeStatistics = async (lat, lng) => {
+	const { debugMode } = useConfig();
+
+	if (debugMode) return mockResponse;
+
 	let result = {};
 
-	if (!debug) {
-		// fetch 12 months data starting 3 months from now
-		for (let i = 3; i < 16; i++) {
-			const date = moment().subtract(i, "month").format("YYYY-MM");
-			const crimes = await fetchCrimeStatistics(lat, lng, date);
+	// fetch 12 months data starting 3 months from now
+	for (let i = 3; i < 16; i++) {
+		const date = moment().subtract(i, "month").format("YYYY-MM");
+		const crimes = await fetchCrimeStatistics(lat, lng, date);
 
-			crimes.forEach((crime) => {
-				const currentValue = result[crime.category];
-				if (!currentValue) result[crime.category] = 1;
-				else result[crime.category] = currentValue + 1;
-			});
-		}
-	} else {
-		result = mockResponse;
-		console.log(result);
+		crimes.forEach((crime) => {
+			const currentValue = result[crime.category];
+			if (!currentValue) result[crime.category] = 1;
+			else result[crime.category] = currentValue + 1;
+		});
 	}
 
 	return result;

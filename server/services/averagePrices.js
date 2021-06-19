@@ -2,8 +2,6 @@ import axios from "axios";
 import parser from "xml2json";
 import { useConfig } from "../hooks/useConfig";
 
-const debug = false;
-
 const fetchAveragePrices = async (latitude, longitude) => {
 	const { averagePricesServiceBaseUrl: baseUrl, averagePricesServiceKey: api_key } = useConfig();
 	const url = `${baseUrl}/v1/average_sold_prices`;
@@ -53,8 +51,12 @@ const fetchAveragePrices = async (latitude, longitude) => {
 };
 
 export const getAveragePrices = async (lat, lng) => {
+	const { debugMode } = useConfig();
+
+	if (debugMode) return mockResponse;
+
 	const response = await fetchAveragePrices(lat, lng);
-	if (debug) return mockResponse;
+
 	if (response?.error) return response;
 
 	let counters = {
