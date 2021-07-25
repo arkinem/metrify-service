@@ -1,34 +1,45 @@
 import { getAirQualityInformation } from "../services/airQuality";
 import { getCrimeStatistics } from "../services/crimeStatistics";
-import { getAveragePrices } from "../services/averagePrices";
+import { getCouncilTaxInfo } from "../services/councilTax";
+import { getDemographicsInfo } from "../services/demographics";
+import { getSchoolsInfo } from "../services/schools";
+import { getPricePerSqfInfo } from "../services/pricesPerSqf";
+import { getSoldPricePerSqfInfo } from "../services/soldPricesPerSqf";
+import { getRestaurantsInfo } from "../services/restaurants";
+import { allSkippingErrors } from "../helpers/promise";
 
 export const generateReport = async (req, res) => {
-	const { lat, lng } = req.query;
-	let response = {};
+	const { lat, lng, postcode } = req.query;
+	let result = {};
 
-	const airQuality = await getAirQualityInformation(lat, lng);
+	const allOptions = {
+		airQuality: getAirQualityInformation(lat, lng),
+		crimeData: getCrimeStatistics(lat, lng),
+		councilTax: getCouncilTaxInfo(postcode),
+		demographics: getDemographicsInfo(postcode),
+		schools: getSchoolsInfo(postcode),
+		pricesPerSqf: getPricePerSqfInfo(postcode),
+		soldPricesPerSqf: getSoldPricePerSqfInfo(postcode),
+		restaurants: getRestaurantsInfo(postcode),
+	};
 
-	if (airQuality.error) {
-		return res.status(400).json({ error: airQuality.message });
-	} else {
-		response = { ...response, airQuality: airQuality };
+	let dataToFetch = {};
+
+	for (const [key, value] of Object.entries(allOptions)) {
+		if (req.query[key] !== "false") {
+			dataToFetch = { ...dataToFetch, [key]: value };
+		}
 	}
 
-	const crimeData = await getCrimeStatistics(lat, lng);
+	try {
+		const response = await allSkippingErrors(Object.values(dataToFetch));
 
-	if (crimeData.error) {
-		return res.status(400).json({ error: crimeData.message });
-	} else {
-		response = { ...response, crimeData: crimeData };
+		Object.keys(dataToFetch).map((key, index) => {
+			result[key] = response[index];
+		});
+	} catch (error) {
+		return res.status(400).json({ error });
 	}
 
-	const averagePrices = await getAveragePrices(lat, lng);
-
-	if (averagePrices.error) {
-		return res.status(400).json({ error: averagePrices.message });
-	} else {
-		response = { ...response, averagePrices: averagePrices };
-	}
-
-	return res.status(201).json(response);
+	return res.status(201).json(result);
 };
