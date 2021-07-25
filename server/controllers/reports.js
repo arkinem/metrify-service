@@ -6,55 +6,40 @@ import { getSchoolsInfo } from "../services/schools";
 import { getPricePerSqfInfo } from "../services/pricesPerSqf";
 import { getSoldPricePerSqfInfo } from "../services/soldPricesPerSqf";
 import { getRestaurantsInfo } from "../services/restaurants";
-
-function allSkippingErrors(promises) {
-	return Promise.all(promises.map((p) => p.catch((error) => null)));
-}
+import { allSkippingErrors } from "../helpers/promise";
 
 export const generateReport = async (req, res) => {
 	const { lat, lng, postcode } = req.query;
-	let response = {};
+	let result = {};
 
-	const airQuality = getAirQualityInformation(lat, lng);
-	const crimeData = getCrimeStatistics(lat, lng);
-	const councilTax = getCouncilTaxInfo(postcode);
-	const demographics = getDemographicsInfo(postcode);
-	const schools = getSchoolsInfo(postcode);
-	const pricesPerSqf = getPricePerSqfInfo(postcode);
-	const soldPricesPerSqf = getSoldPricePerSqfInfo(postcode);
-	const restaurants = getRestaurantsInfo(postcode);
+	const allOptions = {
+		airQuality: getAirQualityInformation(lat, lng),
+		crimeData: getCrimeStatistics(lat, lng),
+		councilTax: getCouncilTaxInfo(postcode),
+		demographics: getDemographicsInfo(postcode),
+		schools: getSchoolsInfo(postcode),
+		pricesPerSqf: getPricePerSqfInfo(postcode),
+		soldPricesPerSqf: getSoldPricePerSqfInfo(postcode),
+		restaurants: getRestaurantsInfo(postcode),
+	};
 
-	// if (averagePrices.error) {
-	// 	return res.status(400).json({ error: averagePrices.message });
-	// } else {
-	// 	response = { ...response, averagePrices: averagePrices };
-	// }
+	let dataToFetch = {};
+
+	for (const [key, value] of Object.entries(allOptions)) {
+		if (req.query[key] !== "false") {
+			dataToFetch = { ...dataToFetch, [key]: value };
+		}
+	}
 
 	try {
-		response = await allSkippingErrors([
-			airQuality,
-			crimeData,
-			councilTax,
-			demographics,
-			schools,
-			pricesPerSqf,
-			soldPricesPerSqf,
-			restaurants,
-		]);
+		const response = await allSkippingErrors(Object.values(dataToFetch));
 
-		response = {
-			airQuality: response[0],
-			crimeData: response[1],
-			councilTax: response[2],
-			demographics: response[3],
-			schools: response[4],
-			pricesPerSqf: response[5],
-			soldPricesPerSqf: response[6],
-			restaurants: response[7],
-		};
+		Object.keys(dataToFetch).map((key, index) => {
+			result[key] = response[index];
+		});
 	} catch (error) {
 		return res.status(400).json({ error });
 	}
 
-	return res.status(201).json(response);
+	return res.status(201).json(result);
 };
