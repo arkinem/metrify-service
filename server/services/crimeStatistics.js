@@ -1,11 +1,13 @@
 import axios from "axios";
 import moment from "moment";
+
 import { useConfig } from "../hooks/useConfig";
+import mockedCrimeStatisticsResponse from "../mocks/crimeStatistics";
 
 export const getCrimeStatistics = async (lat, lng) => {
 	const { debugMode } = useConfig();
 
-	if (debugMode) return mockResponse;
+	if (debugMode) return mockedCrimeStatisticsResponse;
 
 	let result = {};
 
@@ -32,21 +34,8 @@ const fetchCrimeStatistics = async (lat, lng, date) => {
 		const { data } = await axios.get(url, { params: { date, lat, lng } });
 		return data;
 	} catch (e) {
-		return {
-			error: true,
-			message: "Something went wrong with Police UK api call",
-		};
-	}
-};
+		console.log("Something went wrong with Police UK api call", e);
 
-const mockResponse = {
-	"anti-social-behaviour": 8,
-	"public-order": 4,
-	"vehicle-crime": 12,
-	"criminal-damage-arson": 6,
-	robbery: 2,
-	"violent-crime": 16,
-	burglary: 2,
-	"other-crime": 1,
-	"other-theft": 1,
+		throw e;
+	}
 };
