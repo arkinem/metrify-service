@@ -9,7 +9,7 @@ const useConfig = () => {
 		crimeStatisticsServiceBaseUrl: "https://data.police.uk/api",
 		propertyDataServiceBaseUrl: "https://api.propertydata.co.uk",
 		propertyDataServiceKey: PROPERTY_DATA_API_KEY,
-		debugMode: DEBUG_MODE === "true",
+		debugMode: DEBUG_MODE === undefined ? true : DEBUG_MODE === "true",
 	};
 };
 
