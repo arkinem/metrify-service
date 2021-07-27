@@ -11,17 +11,17 @@ const mockedAirQualityResponse = {
 		current: {
 			weather: {
 				ts: "2020-08-08T20:00:00.000Z",
-				tp: 19,
-				pr: 1021,
-				hu: 77,
-				ws: 5.7,
-				wd: 20,
-				ic: "04n",
+				tp: 19, //temperature in Celsius
+				pr: 1021, //atmospheric pressure in hPa
+				hu: 77, //humidity %
+				ws: 5.7, //wind speed (m/s)
+				wd: 20, //wind direction
+				ic: "04n", //weather icon code
 			},
 			pollution: {
 				ts: "2020-08-08T19:00:00.000Z",
 				aqius: 73,
-				mainus: "p2",
+				mainus: "p2", //main pollutant for US AQI
 				aqicn: 36,
 				maincn: "p1",
 			},
